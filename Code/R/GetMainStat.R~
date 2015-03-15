@@ -73,6 +73,8 @@ library(XLConnect)
 # Get features #
 ################
 
+# files from rts
+
 #########################
 # XLSX files must be    #
 # in <XXX> folder       #
