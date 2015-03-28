@@ -1,0 +1,10 @@
+Package: dmsport
+Type: Package
+Title: pregame football strategy simulator
+Version: 1.0
+Date: 2015-03-28
+Author: Who wrote it
+Maintainer: shabanovmail@gmail.com
+Description: …
+License: 
+Depends: R (>= 3.1.0), zoo, lubridate
