@@ -24,7 +24,6 @@ downloadSeason <- function (league, division, season.start.year, add.season = TR
 
   return (out)
 }
-
 downloadRangeSeason <- function (league, division, range.start.years, add.season = TRUE, combine = TRUE) {
 
   seasons.list <- sapply(range.start.years, function(x)
@@ -38,11 +37,13 @@ downloadRangeSeason <- function (league, division, range.start.years, add.season
   return (seasons)
 }
 
-
+# example:
 #season  <- downloadSeason(league = "E", division = "0", season.start.year = 1999, add.season = T, na.rm = T)
 #seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 1999:2002)
 
-# one ring to rule them all
+# this function load all data to csv files:
+
+load.data <- function() {
 # england:
 E0 <- downloadRangeSeason(league = "E", division = "0", range.start.years = 1994:2014)
 E1 <- downloadRangeSeason(league = "E", division = "1", range.start.years = 1994:2014)
@@ -98,3 +99,4 @@ write.csv(T1,file="T1.csv")
 # greece:
 G1 <- downloadRangeSeason(league = "G", division = "1", range.start.years = 1996:2014)
 write.csv(G1,file="G1.csv")
+}
