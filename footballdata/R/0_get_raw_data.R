@@ -1,5 +1,3 @@
-require(RCurl)
-require(plyr)
 
 downloadSeason <- function (league, division, season.start.year, add.season = TRUE, na.rm = TRUE) {
 
