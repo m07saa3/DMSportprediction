@@ -79,8 +79,10 @@ get.personal.stat <- function(df) {
   teams <- unique(df$HomeTeam)
   pairs <- t(combn(teams, 2))
   unique.pairs <- rbind(pairs, pairs[ ,2:1])
-  all.meetings <- lapply(1:nrow(pairs), FUN = function(i){
-    get.personal.matches(pairs[i, 1], pairs[i, 2], df)
+  hash <- paste(unique.pairs)
+  all.meetings <- lapply(1:nrow(unique.pairs), FUN = function(i){
+    d <- get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df)
+    d <- drop.ha.stat(d)
   })
   all.meetings.at.same.field <- lapply(1:nrow(unique.pairs), FUN = function(i){
     get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df, same.field = T)
