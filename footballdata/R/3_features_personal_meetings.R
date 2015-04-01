@@ -1,7 +1,7 @@
 # stats from historical meetings beetween two teams
 
-# this function return subset from df which include matches beetween team1 and team2
-# use same.field = T if you want only matches with this field (home for team1)
+# this function return subset from df, which include matches beetween team1 and team2
+# use same.field = T, if you want only matches with this field (home for team1)
 get.personal.matches <- function(team1, team2, df, same.field = F) { 
   mask <- df$HomeTeam == team1 & df$AwayTeam == team2
   if(same.field)
@@ -82,7 +82,7 @@ get.personal.stat <- function(df) {
   hash <- paste(unique.pairs)
   all.meetings <- lapply(1:nrow(unique.pairs), FUN = function(i){
     d <- get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df)
-    d <- drop.ha.stat(d)
+    d <- drop.ha.stats(d)
   })
   all.meetings.at.same.field <- lapply(1:nrow(unique.pairs), FUN = function(i){
     get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df, same.field = T)
