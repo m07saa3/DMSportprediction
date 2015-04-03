@@ -11,7 +11,7 @@ get.personal.matches <- function(team1, team2, df, same.field = F) {
 
 # lets drop all information about Home-Away
 # use get.personal.matches, same.fild = F for prepare df
-drop.ha.stats <- function(df, team) {
+.drop.ha.stats <- function(df, team) {
   # well it looks like GOVNOCODE© but in fact function returns
   # same df but with team=team in df$HomeTeam (and ofcource correct others columns)
   # it have to make my life easier tommorow...
@@ -69,31 +69,37 @@ drop.ha.stats <- function(df, team) {
   data.mask <- data.mask[,c(1:5,add)]
   colnames(data.mask) <- colnames(data.ok)
   d <- rbind(data.mask,data.ok)
-  #TO DO
-  #d <- d[order(d$Time),]
+  d <- d[order(d$Date),]
 }
 
 
 #main function
-get.personal.stat <- function(df) {
+get.personal.stat <- function(league = "E0") {
+  name <- paste("pers",league,"rds",sep=".")
+  files = list.files("calc_resourses", pattern = name)
+  if(length(files)!=0) {
+    l <- readRDS(file.path("calc_resourses", name))
+    return(l)
+  }
+  
+  df <- get.data(league)
   teams <- unique(df$HomeTeam)
   pairs <- t(combn(teams, 2))
   unique.pairs <- rbind(pairs, pairs[ ,2:1])
-  hash <- paste(unique.pairs)
+  hash <- paste(unique.pairs[ ,1], unique.pairs[ ,2],sep=" vs ")
+  print("wait a little bit...")
   all.meetings <- lapply(1:nrow(unique.pairs), FUN = function(i){
     d <- get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df)
-    d <- drop.ha.stats(d)
+    d <- .drop.ha.stats(d, unique.pairs[i, 1])
   })
   all.meetings.at.same.field <- lapply(1:nrow(unique.pairs), FUN = function(i){
     get.personal.matches(unique.pairs[i, 1], unique.pairs[i, 2], df, same.field = T)
   })
-  # ok, now we have lots of small df
-  
-  
-  
-  
-  
-  
-  
-  
+  # ok, now we have lots of small df, save them
+  l <- list(
+    hash = hash,
+    all.meetings = all.meetings,
+    all.meetings.at.same.field = all.meetings.at.same.field)
+  saveRDS(l, file = file.path("calc_resourses", name))
+  l
 }
