@@ -63,5 +63,26 @@ getForkedDataset <- function(df) {
   new.df$id <- NULL
   rownames(new.df) <- NULL
   
+  # preparing to good view
+  for (stat in c("FTR", "HTR")) {  
+    new.df[, stat] <- as.character(new.df[, stat])
+    
+    for (i in 1:nrow(new.df)) {
+      if (new.df$home_away[i] == "Home") {
+        if (new.df[i, stat] == "H") {
+          new.df[i, stat] <- "W"
+        } else  if (new.df[i, stat] == "A") {
+          new.df[i, stat] <- "L"
+        }
+      } else {
+        if (new.df[i, stat] == "H") {
+          new.df[i, stat] <- "L"
+        } else  if (new.df[i, stat] == "A") {
+          new.df[i, stat] <- "W"
+        }
+      }
+    }
+  }
+  
   new.df
 }
