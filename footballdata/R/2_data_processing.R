@@ -1,11 +1,3 @@
-#TO DO convert Date as Posix
-
-
-
-#TO DO create function which make df for team-stat-analysis
-
-
-
 # removes NA from df
 clean.df <- function(df) {
   na.mask <- is.na(df)

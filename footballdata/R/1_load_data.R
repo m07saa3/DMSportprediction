@@ -1,7 +1,9 @@
 #list of leagues
 list.leagues <- function() {
   path.file = file.path("..", "data_raw", "football_data_co_uk")
-  list.files(path.file, pattern = ".csv")
+  l = list.files(path.file, pattern = ".csv")
+  ll = unlist(strsplit(l, "[.]"))
+  ll[ll != "csv"]
 }
 
 # download from github repo
