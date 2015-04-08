@@ -222,7 +222,7 @@ mergeOutcomeMatchFeatures <- function(df, window_n, window_m) {
   colnames(pars) <- c("feature", "output_name")
   
   features.list <- lapply(seq(nrow(pars)), function(i) 
-    getOutcomeResult(df, window_n = window_n, window_m = window_m, stat = pars$feature[i], name = pars$output_name[i]))
+    getOutcomeMatchResult(df, window_n = window_n, window_m = window_m, stat = pars$feature[i], name = pars$output_name[i]))
   
   
   # final base (without -1 - empty dfs)
