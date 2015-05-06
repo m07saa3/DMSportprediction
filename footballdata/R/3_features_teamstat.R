@@ -8,7 +8,7 @@
 #
 #
 # Simple example:
-# raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2011:2014)
+# raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2012:2014)
 # dataset <- getForkedDataset(raw.seasons)
 #
 # goals per last <window_n> matches and 

@@ -239,7 +239,10 @@ getSeasonStandings <- function(df) {
     
     for (k in id.season) {
       team <- df$Team[k]
+      team.vs <- df$Team_vs[k]
+      
       standings <- list.standings[[which(dates == df$Date[k])]]
+      standings <- standings[order(standings$score, -standings$n.games, standings$goals.diffs), ]
       
       rank.team <- which(standings$team == team) / nrow(standings)
       
@@ -247,14 +250,15 @@ getSeasonStandings <- function(df) {
     }
   }
   
-  rank.teams
+  result <- data.frame(rank = rank.teams)
+  result
 }
 
-# raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2011:2014)
+# raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2012:2014)
 # dataset <- getForkedDataset(raw.seasons)
 #
 # season.match.results <- getSeasonMatchResults(dataset)
 # season.match.stats <- mergeSeasonMatchFeatures(dataset)
 # season.all.stat <- cbind(dataset, season.match.results, season.match.stats)
 # ranks <- getSeasonStandings(season.all.stat)
-# season.all.stat$ranks <- ranks
+# season.all.stat <- cbind(season.all.stat, ranks)

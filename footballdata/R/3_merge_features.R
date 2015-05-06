@@ -7,7 +7,6 @@ getFeatures <- function(league, division, range.start.years) {
   dataset <- getForkedDataset(raw.seasons)
   
   # GENERAL AND OUTCOME FEATURES
-  
   general.features <- mergeGeneralMatchFeatures(dataset, 10, 5)
   outcome.match.features <- mergeOutcomeMatchFeatures(dataset, 10, 5)
   
@@ -23,5 +22,10 @@ getFeatures <- function(league, division, range.start.years) {
   
   all.features
 }
+
+
+# names vs in feature's name, means not stat vs team!
+# It means stat from all teams, which was rival team!
+# F.e. vs for goals - means how much goals conceded team
 
 # features <- getFeatures(league = "E", division = "0", range.start.years = 2011:2014)
