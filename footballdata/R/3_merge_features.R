@@ -1,9 +1,8 @@
 # Merge all features!
 
-getFeatures <- function(league, division, range.start.years) {
+getFeatures <- function(raw.seasons) {
   
   # get data
-  raw.seasons <- downloadRangeSeason(league = league, division = division, range.start.years = range.start.years)
   dataset <- getForkedDataset(raw.seasons)
   
   # GENERAL AND OUTCOME FEATURES
@@ -20,7 +19,19 @@ getFeatures <- function(league, division, range.start.years) {
   
   all.features <- cbind(general.features, outcome.match.features, season.features)
   
-  all.features
+  all.features <- cbind(dataset[ , c("Season", "Start.year", "Div", "Date", "Team", "Team_vs", "home_away")], all.features)
+ 
+  ################################################
+  # now add features from another team (vs team) #
+  ################################################
+  
+  all.features.current <- all.features[seq(1, nrow(all.features) - 1, 2), -7]
+  all.features.vs <- all.features[seq(2, nrow(all.features), 2), -1:-7]
+  
+  colnames(all.features.vs) <- sapply(seq(ncol(all.features.vs)), 
+                                      function(i) paste0("VS_", colnames(all.features.vs)[i]))
+ 
+  result <- cbind(all.features.current, all.features.vs)
 }
 
 
@@ -28,4 +39,5 @@ getFeatures <- function(league, division, range.start.years) {
 # It means stat from all teams, which was rival team!
 # F.e. vs for goals - means how much goals conceded team
 
-# features <- getFeatures(league = "E", division = "0", range.start.years = 2011:2014)
+# raw <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2011:2014)
+# features <- getFeatures(raw)

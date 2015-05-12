@@ -3,6 +3,6 @@ Title: mining some data from whoscored data
 Version: 0.1
 Authors@R: person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph)
-Depends: R (>= 3.1.0), zoo, lubridate, Metrics, plyr, RCurl
+Depends: R (>= 3.1.0), zoo, lubridate, Metrics, plyr, RCurl, glmnet
 License: What license is it under
 LazyData: true
