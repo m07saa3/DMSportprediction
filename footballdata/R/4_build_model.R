@@ -1,5 +1,5 @@
 # There is very-very simple glmnet.
-# Using in simple too:
+# Using is simple too:
 #
 # get.model.results: 
 # 1) get features 
