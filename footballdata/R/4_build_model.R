@@ -73,6 +73,7 @@ get.model.results <- function(raw.seasons) {
   results
 }
 
+# It works for E0, because there a lot of pars.
 # raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2011:2014)
 # results <- get.model.results(raw.seasons)
 #
@@ -80,5 +81,5 @@ get.model.results <- function(raw.seasons) {
 # So, there are real subset: test.set,
 # and predictions for him: predictions$predictions
 #
-#predictions <- results$pred.base
-#test.set <- results$test.data 
+# predictions <- results$pred.base
+# test.set <- results$test.data 
