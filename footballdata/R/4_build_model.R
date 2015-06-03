@@ -9,21 +9,12 @@
 
 build.glmnet.model <- function(trainSet, train.TV) {
   
-  par.alpha = seq(0, 1, 0.02)
-  res <- c()
+  print("Building model..finding optimal lambda..")
   
-  print("Building model..finding optimal alpha and lambda..")
-  for (a in par.alpha) {
-    set.seed(1)
-    model <- cv.glmnet(as.matrix(trainSet), train.TV , nfolds = 5, alpha = a)
-    res <- append(res, min(model$cvm))
-    print(a)
-  }
-  
-  best.alpha <- par.alpha[which.min(res)]
   set.seed(1)
-  model <- cv.glmnet(as.matrix(trainSet), train.TV , nfolds = 5, alpha = best.alpha)
   
+  model <- cv.glmnet(as.matrix(trainSet), train.TV , nfolds = 5)
+
   model
 }
 
@@ -44,13 +35,21 @@ get.model.results <- function(raw.seasons) {
   features <- features[not.na.rows, -1:-6]
   TV <- TV[not.na.rows]
   
+  raw <- raw.seasons[not.na.rows, ]
+  
+  highlyCorrelated <- findCorrelation(cor(features), cutoff = 0.8)
+  features <- features[, -highlyCorrelated]
+  
   # split on train and test sets
   trainSet <- features[1:(nrow(features) * 0.8), ]
+  trainRaw <- raw[1:(nrow(features) * 0.8), ]
   train.TV <- TV[1:(nrow(features) * 0.8)]
   
   testSet <- features[(nrow(trainSet) + 1):nrow(features), ]
+  testRaw <- raw[(nrow(trainSet) + 1):nrow(features), ]
   test.TV <- TV[(nrow(trainSet) + 1):nrow(features)] 
   
+  # Code: build model
   model <- build.glmnet.model(trainSet, train.TV)
   
   # predict to test set
@@ -68,9 +67,18 @@ get.model.results <- function(raw.seasons) {
   results$pred.base <- pred.base
   results$squaredR <- sq.R(predictions, test.TV)
   
+  results$test.data <- testRaw
+  results$train.data <- trainRaw
+  
   results
 }
 
 # raw.seasons <- downloadRangeSeason(league = "E", division = "0", range.start.years = 2011:2014)
 # results <- get.model.results(raw.seasons)
-# results
+#
+#
+# So, there are real subset: test.set,
+# and predictions for him: predictions$predictions
+#
+#predictions <- results$pred.base
+#test.set <- results$test.data 
