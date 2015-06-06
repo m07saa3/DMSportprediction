@@ -73,7 +73,7 @@ get.personal.matches <- function(team1, team2, df, same.field = F) {
 }
 
 
-#main function
+# main function
 get.personal.stat <- function(league = "E0") {
   name <- paste("pers",league,"rds",sep=".")
   files = list.files("calc_resourses", pattern = name)
@@ -103,3 +103,26 @@ get.personal.stat <- function(league = "E0") {
   saveRDS(l, file = file.path("calc_resourses", name))
   l
 }
+
+# create features 
+# okey this is main function which take df team1 vs team2 ( for home matches or overall)
+# and create data.frame
+create.features <- function(df, width) {
+  df.y <- create.y(df)
+  result <- data.frame(
+    goal.diff = rollapply(df.y$full.diff, width=width, partial=TRUE, align = "right", sum),
+    goal.total = rollapply(df.y$full.total, width=width, partial=TRUE, align = "right", sum),
+    half.diff = rollapply(df.y$half.diff, width=width, partial=TRUE, align = "right", sum),
+    half.total = rollapply(df.y$half.total, width=width, partial=TRUE, align = "right", sum))
+  result <- rbind(rep(NA,4), result[-nrow(df.y),])
+}
+
+
+get.personal.meatings <- function(league, widths) {
+  pers.data  = get.personal.stat(league)
+  pers.data$home.features <- list()
+  pers.data$all.features <- list()
+  for(i in seq_along(pers.data$hash)) {
+    pres.data$home.features[[i]]
+  }
+} 
